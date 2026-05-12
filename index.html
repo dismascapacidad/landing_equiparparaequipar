@@ -74,7 +74,7 @@
       background: var(--white);
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
       border-bottom: 0.5px solid var(--border);
     }
 
@@ -154,6 +154,8 @@
       border: none;
       cursor: pointer;
       padding: 4px;
+      position: relative;
+      z-index: 1100;  /* por encima del overlay (999) y del drawer */
     }
 
     .nav-hamburger span {
@@ -163,7 +165,82 @@
       background: var(--navy);
       margin: 4px 0;
       border-radius: 2px;
-      transition: transform .3s;
+      transition: transform .3s ease, opacity .3s ease;
+    }
+
+    /* Animación X cuando está abierto */
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* ── MOBILE MENU DRAWER ── */
+    .nav-mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(26, 46, 74, 0.5);
+      backdrop-filter: blur(3px);
+      z-index: 998;  /* debajo de la nav (1000) para que el hamburger quede visible */
+      opacity: 0;
+      transition: opacity .28s ease;
+      pointer-events: none;
+    }
+
+    .nav-mobile-menu.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nav-mobile-drawer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 78vw;
+      max-width: 300px;
+      background: var(--white);
+      padding: 56px 28px 40px;
+      box-shadow: 6px 0 32px rgba(26,46,74,0.18);
+      transform: translateX(-100%);
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      overflow-y: auto;
+    }
+
+    .nav-mobile-menu.open .nav-mobile-drawer {
+      transform: translateX(0);
+    }
+
+    .nav-mobile-link {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--navy);
+      text-decoration: none;
+      padding: 12px 4px;
+      border-bottom: 0.5px solid var(--border);
+      display: block;
+      transition: color .2s;
+    }
+
+    .nav-mobile-link:last-of-type { border-bottom: none; }
+    .nav-mobile-link:hover { color: var(--teal); }
+
+    .nav-mobile-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .nav-mobile-btns .btn-nav {
+      text-align: center;
+      padding: 12px 20px;
+      font-size: 15px;
     }
 
     /* ── HERO ── */
@@ -403,9 +480,9 @@
 
     .ac-item.open .ac-content { opacity: 1; }
 
-    .ac-content-inner {
-      padding: 4px 0 4px 4px;
-    }
+    /* ac-head y ac-body: estructura interna del contenido */
+    .ac-head { margin-bottom: 6px; }
+    .ac-body { /* sin restricciones en desktop: ac-content ya gestiona visibilidad */ }
 
     .ac-tag {
       font-size: 10px;
@@ -790,9 +867,21 @@
       :root { --sp: 20px; }
 
       /* ── NAV ── */
-      nav { padding: 12px 20px; }
+      nav {
+        padding: 12px 20px;
+        position: sticky; /* ya definido globalmente, asegurar */
+      }
       .nav-links { display: none; }
+
+      /* Hamburger a la izquierda, logos centrados */
       .nav-hamburger { display: block; }
+      .nav-logos {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .nav-mobile-menu { display: block; }
 
       /* ── HERO ── */
       .hero {
@@ -822,44 +911,84 @@
       .btn-main,
       .btn-ghost { width: 100%; justify-content: center; }
 
-      /* ── ACORDEÓN ── */
+      /* ── ACORDEÓN MOBILE: colapso vertical con max-height ── */
       .accordion-section { padding: 20px 16px 24px; }
 
       .accordion {
         flex-direction: column;
         height: auto;
         border-radius: 12px;
+        overflow: visible;
         gap: 6px;
       }
 
+      /* En mobile la transición de flex-width no aplica,
+         cada item ocupa el ancho completo siempre */
       .ac-item {
-        flex: 0 0 auto !important;
+        flex: none !important;
         flex-direction: column;
         width: 100%;
         align-items: flex-start;
         padding: 14px 16px;
         gap: 0;
+        overflow: hidden;
+        transition: background 330ms ease;
       }
 
-      .ac-item.open { flex: 0 0 auto !important; }
-
+      /* La cabecera (número + ícono) en fila horizontal */
       .ac-left {
         flex-direction: row;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         width: 100%;
         height: auto;
         gap: 10px;
-        margin-bottom: 0;
       }
 
+      /* Ícono siempre visible en mobile como indicador */
+      .ac-left i { display: block !important; color: var(--gray); }
+      .ac-item.open .ac-left i { color: rgba(255,255,255,0.5); }
+
+      /* ac-content siempre visible en mobile (el colapso es solo en ac-body) */
       .ac-content {
-        padding-top: 12px;
-        padding-left: 0;
         width: 100%;
+        display: block;
+        align-items: unset;
+        opacity: 1;
+        max-height: none;
+        overflow: visible;
+        padding-top: 8px;
       }
 
-      .ac-item:not(.open) .ac-left i { display: none; }
+      /* ac-head: número + título siempre visibles */
+      .ac-head {
+        display: block;
+      }
+      .ac-head .ac-tag { display: none; }   /* la pill la ocultamos en mobile */
+      .ac-head .ac-h {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--navy);
+        margin-top: 2px;
+      }
+      .ac-item.open .ac-head .ac-h { color: var(--white); }
+
+      /* ac-body: solo la descripción colapsa */
+      .ac-body {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 400ms cubic-bezier(.4,0,.2,1),
+                    opacity    300ms ease,
+                    padding-top 300ms ease;
+        padding-top: 0;
+      }
+
+      .ac-item.open .ac-body {
+        max-height: 200px;
+        opacity: 1;
+        padding-top: 8px;
+      }
 
       /* ── STATS STRIP ── */
       .stats-strip { flex-wrap: wrap; }
@@ -973,6 +1102,10 @@
 
   <!-- ── NAV ── -->
   <nav>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
     <div class="nav-logos">
       <img src="assets/img/Logo_EpE.png" class="epe-logo-img" alt="Equipar para Equipar">
       <div class="nav-divider"></div>
@@ -986,12 +1119,20 @@
       <a href="https://app.equiparparaequipar.com.ar/" target="_blank" rel="noopener" class="btn-nav btn-nav--outline">Configurador</a>
       <a href="#contacto" class="btn-nav">Quiero una valija →</a>
     </div>
-
-    <button class="nav-hamburger" aria-label="Menú">
-      <span></span><span></span><span></span>
-    </button>
   </nav>
 
+  <!-- ── MOBILE MENU ── -->
+  <div class="nav-mobile-menu" id="navMobileMenu" role="dialog" aria-label="Menú de navegación">
+    <div class="nav-mobile-drawer">
+      <a href="#metodologia" class="nav-mobile-link">Metodología</a>
+      <a href="#formacion"   class="nav-mobile-link">Formación</a>
+      <a href="#comunidad"   class="nav-mobile-link">Comunidad</a>
+      <div class="nav-mobile-btns">
+        <a href="https://app.equiparparaequipar.com.ar/" target="_blank" rel="noopener" class="btn-nav btn-nav--outline">Configurador</a>
+        <a href="#contacto" class="btn-nav">Quiero una valija →</a>
+      </div>
+    </div>
+  </div>
 
   <!-- ── HERO ── -->
   <section class="hero">
@@ -1041,9 +1182,11 @@
             <i class="ti ti-search"></i>
           </div>
           <div class="ac-content">
-            <div class="ac-content-inner">
+            <div class="ac-head">
               <p class="ac-tag">Evaluación Inicial</p>
               <p class="ac-h">Evaluación inicial</p>
+            </div>
+            <div class="ac-body">
               <p class="ac-p">El profesional evalúa necesidades y capacidades con criterio clínico, antes de tocar cualquier dispositivo.</p>
             </div>
           </div>
@@ -1055,9 +1198,11 @@
             <i class="ti ti-briefcase"></i>
           </div>
           <div class="ac-content">
-            <div class="ac-content-inner">
+            <div class="ac-head">
               <p class="ac-tag">Prueba de equipamiento</p>
               <p class="ac-h">Validación con dispositivos configurables</p>
+            </div>
+            <div class="ac-body">
               <p class="ac-p">La valija EpE permite probar antes de indicar. El dispositivo se adapta al paciente, no el paciente al dispositivo.</p>
             </div>
           </div>
@@ -1069,9 +1214,11 @@
             <i class="ti ti-school"></i>
           </div>
           <div class="ac-content">
-            <div class="ac-content-inner">
+            <div class="ac-head">
               <p class="ac-tag">Entrenamiento y capacitación</p>
               <p class="ac-h">Entrenamiento y capacitación</p>
+            </div>
+            <div class="ac-body">
               <p class="ac-p">Formación práctica con material organizado por dispositivo y objetivo terapéutico. Presencial o virtual.</p>
             </div>
           </div>
@@ -1083,9 +1230,11 @@
             <i class="ti ti-file-check"></i>
           </div>
           <div class="ac-content">
-            <div class="ac-content-inner">
+            <div class="ac-head">
               <p class="ac-tag">Indicación de dispositivos</p>
               <p class="ac-h">Indicación</p>
+            </div>
+            <div class="ac-body">
               <p class="ac-p">Con evidencia real, la indicación es precisa y justificable. Sin sorpresas para el paciente ni la familia.</p>
             </div>
           </div>
@@ -1097,9 +1246,11 @@
             <i class="ti ti-heart-handshake"></i>
           </div>
           <div class="ac-content">
-            <div class="ac-content-inner">
+            <div class="ac-head">
               <p class="ac-tag">Acceso y autonomía</p>
               <p class="ac-h">Acceso</p>
+            </div>
+            <div class="ac-body">
               <p class="ac-p">La persona accede a la tecnología que necesita. El eslabón que cierra el circuito EpE.</p>
             </div>
           </div>
@@ -1353,10 +1504,17 @@
       document.querySelectorAll('.ac-item')[i].classList.add('open');
     }
 
-    /* Fallback click para touch/mobile */
+    /* En mobile (touch) el hover no existe: usar click */
     document.querySelectorAll('.ac-item').forEach(function(el, i) {
       el.addEventListener('click', function() { acOpen(i); });
     });
+
+    /* En desktop deshabilitar click para que no compita con hover */
+    if (window.matchMedia('(hover: hover)').matches) {
+      document.querySelectorAll('.ac-item').forEach(function(el) {
+        el.style.pointerEvents = 'auto';
+      });
+    }
 
     /* ── Nav: logos se centran al scrollear ── */
     (function() {
@@ -1398,6 +1556,46 @@
       window.addEventListener('resize', function() {
         if (isMobile()) { applyTop(); return; }
         if (isScrolled) applyScrolled();
+      }, { passive: true });
+    }());
+
+    /* ── Mobile hamburger menu ── */
+    (function() {
+      var hamburger = document.getElementById('navHamburger');
+      var mobileMenu = document.getElementById('navMobileMenu');
+
+      function openMenu() {
+        hamburger.classList.add('open');
+        hamburger.setAttribute('aria-expanded', 'true');
+        mobileMenu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      hamburger.addEventListener('click', function() {
+        if (mobileMenu.classList.contains('open')) closeMenu();
+        else openMenu();
+      });
+
+      /* Cerrar al tocar el overlay (fuera del drawer) */
+      mobileMenu.addEventListener('click', function(e) {
+        if (e.target === mobileMenu) closeMenu();
+      });
+
+      /* Cerrar al navegar a un anchor */
+      mobileMenu.querySelectorAll('a[href^="#"]').forEach(function(link) {
+        link.addEventListener('click', closeMenu);
+      });
+
+      /* Cerrar si se pasa a desktop */
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) closeMenu();
       }, { passive: true });
     }());
 
