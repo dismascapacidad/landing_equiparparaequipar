@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     @font-face {
       font-family: 'Agane';
@@ -41,6 +42,7 @@
       --red-text:   #c0533a;
       --green-text: #0f6e56;
       --font:       'DM Sans', system-ui, sans-serif;
+      --sp:         18%;   /* margen lateral desktop */
     }
 
     html { scroll-behavior: smooth; }
@@ -68,7 +70,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 40px;
+      padding: 14px var(--sp);
       background: var(--white);
       position: sticky;
       top: 0;
@@ -199,10 +201,8 @@
       grid-template-columns: 1fr 1fr;
       align-items: center;
       gap: 56px;
-      padding: 40px 64px 80px;
+      padding: 40px var(--sp) 80px;
       width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
     }
 
     /* ── Brand column (left) ── */
@@ -309,95 +309,126 @@
 
     .btn-ghost:hover { border-color: rgba(255,255,255,.7); color: #fff; }
 
-    /* ── CIRCUIT BAR ── */
-    .circuit-bar {
+    /* ── ACORDEÓN HORIZONTAL ── */
+    .accordion-section {
       position: relative;
       z-index: 2;
-      background: rgba(10, 20, 40, 0.88);
+      background: rgba(10, 20, 40, 0.92);
       border-top: 0.5px solid rgba(255,255,255,0.08);
-      padding: 22px 40px 24px;
+      padding: 24px var(--sp) 28px;
     }
 
-    .circuit-inner {
-      max-width: 1440px;
-      margin: 0 auto;
-    }
-
-    .circuit-label {
+    .accordion-title {
       font-family: 'Agane', var(--font);
       font-size: 17px;
       font-weight: 300;
       color: rgba(255,255,255,0.9);
-      text-transform: none;
-      letter-spacing: 0;
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
-    .circuit-label .c-highlight {
+    .accordion-title .ac-highlight {
       color: var(--teal);
       font-weight: 700;
     }
 
-    .circuit-steps {
+    .accordion {
       display: flex;
-      align-items: stretch;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 2px;
+      gap: 8px;
+      border-radius: 16px;
+      overflow: hidden;
+      height: 165px;
     }
 
-    .c-pill {
+    .ac-item {
+      flex: 0 0 60px;
+      background: var(--white);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: flex 550ms cubic-bezier(.4,0,.2,1),
+                  background 330ms ease;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 16px 14px;
+      gap: 12px;
+    }
+
+    .ac-item.open {
       flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255,255,255,0.08);
-      border: 0.5px solid rgba(255,255,255,0.22);
-      border-radius: 10px;
-      padding: 12px 14px;
-      min-width: 0;
+      background: var(--navy);
     }
 
-    .c-pill.active {
-      background: rgba(43,181,160,0.18);
-      border-color: rgba(43,181,160,0.6);
-    }
-
-    .c-pill-icon {
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-
-    .c-pill-body {
+    /* columna izquierda fija */
+    .ac-left {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      min-width: 0;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      flex-shrink: 0;
+      width: 24px;
     }
 
-    .c-pill-num {
+    .ac-num {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--border);
+      line-height: 1;
+      transition: color 300ms ease;
+    }
+
+    .ac-item.open .ac-num { color: var(--teal); }
+
+    .ac-left i {
+      font-size: 18px;
+      color: var(--gray);
+      transition: color 300ms ease;
+    }
+
+    .ac-item.open .ac-left i { color: rgba(255,255,255,0.4); }
+
+    /* columna derecha: contenido */
+    .ac-content {
+      opacity: 0;
+      transition: opacity 330ms ease 100ms;
+      overflow: hidden;
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .ac-item.open .ac-content { opacity: 1; }
+
+    .ac-content-inner {
+      padding: 4px 0 4px 4px;
+    }
+
+    .ac-tag {
       font-size: 10px;
       font-weight: 600;
-      color: rgba(255,255,255,0.4);
-      line-height: 1;
+      color: var(--teal-mid);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 8px;
     }
 
-    .c-pill-label {
-      font-size: 13px;
+    .ac-h {
+      font-size: 14px;
       font-weight: 500;
-      color: rgba(255,255,255,0.88);
-      line-height: 1.35;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.3;
     }
 
-    .c-pill.active .c-pill-num   { color: var(--teal); }
-    .c-pill.active .c-pill-label { color: #fff; font-weight: 600; }
-
-    .c-arrow {
-      color: rgba(255,255,255,0.28);
-      font-size: 18px;
-      flex-shrink: 0;
-      align-self: center;
+    .ac-p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.65;
+      max-width: 320px;
     }
 
     /* ── STATS STRIP ── */
@@ -405,6 +436,7 @@
       display: flex;
       background: var(--navy-dark);
       border-top: 0.5px solid rgba(255,255,255,0.06);
+      padding: 0 var(--sp);
     }
 
     .stat-item {
@@ -433,7 +465,7 @@
 
     /* ── SECTION BASE ── */
     .section {
-      padding: 72px 40px;
+      padding: 72px var(--sp);
     }
 
     .sec-tag {
@@ -583,7 +615,7 @@
     /* ── MISSION BAND ── */
     .mission-band {
       background: var(--navy);
-      padding: 48px 40px;
+      padding: 48px var(--sp);
       text-align: center;
     }
 
@@ -605,7 +637,7 @@
     .eco-section {
       background: var(--offwhite);
       border-top: 0.5px solid var(--border);
-      padding: 72px 40px;
+      padding: 72px var(--sp);
     }
 
     .eco-grid {
@@ -653,7 +685,7 @@
 
     /* ── CTA FINAL ── */
     .cta-section {
-      padding: 80px 40px;
+      padding: 80px var(--sp);
       text-align: center;
       border-top: 0.5px solid var(--border);
     }
@@ -724,7 +756,7 @@
 
     /* ── FOOTER ── */
     footer {
-      padding: 22px 40px;
+      padding: 22px var(--sp);
       border-top: 0.5px solid var(--border);
       background: var(--offwhite);
       display: flex;
@@ -754,6 +786,8 @@
        RESPONSIVE — 768px
     ════════════════════════════════════════ */
     @media (max-width: 768px) {
+
+      :root { --sp: 20px; }
 
       /* ── NAV ── */
       nav { padding: 12px 20px; }
@@ -788,26 +822,44 @@
       .btn-main,
       .btn-ghost { width: 100%; justify-content: center; }
 
-      /* ── CIRCUIT BAR ── */
-      .circuit-bar { padding: 18px 16px 20px; }
+      /* ── ACORDEÓN ── */
+      .accordion-section { padding: 20px 16px 24px; }
 
-      .circuit-label { font-size: 14px; margin-bottom: 12px; }
+      .accordion {
+        flex-direction: column;
+        height: auto;
+        border-radius: 12px;
+        gap: 6px;
+      }
 
-      .circuit-steps {
+      .ac-item {
+        flex: 0 0 auto !important;
+        flex-direction: column;
+        width: 100%;
+        align-items: flex-start;
+        padding: 14px 16px;
+        gap: 0;
+      }
+
+      .ac-item.open { flex: 0 0 auto !important; }
+
+      .ac-left {
+        flex-direction: row;
+        align-items: center;
         justify-content: flex-start;
-        gap: 8px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-      }
-      .circuit-steps::-webkit-scrollbar { display: none; }
-
-      .c-pill {
-        flex: 0 0 auto;
-        min-width: 150px;
-        max-width: 180px;
+        width: 100%;
+        height: auto;
+        gap: 10px;
+        margin-bottom: 0;
       }
 
-      .c-arrow { font-size: 14px; }
+      .ac-content {
+        padding-top: 12px;
+        padding-left: 0;
+        width: 100%;
+      }
+
+      .ac-item:not(.open) .ac-left i { display: none; }
 
       /* ── STATS STRIP ── */
       .stats-strip { flex-wrap: wrap; }
@@ -873,6 +925,8 @@
     ════════════════════════════════════════ */
     @media (max-width: 480px) {
 
+      :root { --sp: 16px; }
+
       /* ── NAV ── */
       .epe-logo-img { height: 26px; }
       .dis-logo { height: 18px; }
@@ -887,23 +941,7 @@
 
       .hero h1 { font-size: 20px; }
 
-      /* ── CIRCUIT BAR: pills se apilan verticalmente ── */
-      .circuit-steps { flex-direction: column; }
-
-      .c-pill {
-        flex: none;
-        width: 100%;
-        min-width: 0;
-        max-width: 100%;
-      }
-
-      .c-arrow {
-        display: inline-block;
-        transform: rotate(90deg);
-        align-self: flex-start;
-        margin-left: 18px;
-        font-size: 16px;
-      }
+      /* acordeón 480px: sin cambios adicionales, ya cubierto en 768 */
 
       /* ── STATS: columna única ── */
       .stat-item {
@@ -992,84 +1030,84 @@
 
     </div>
 
-    <div class="circuit-bar anim-5">
-      <div class="circuit-inner">
-        <p class="circuit-label">El proceso de Tecnología Asistiva, <span class="c-highlight">simple.</span></p>
-        <div class="circuit-steps">
+    <div class="accordion-section anim-5">
+      <p class="accordion-title">El proceso de Tecnología Asistiva, <span class="ac-highlight">simple.</span></p>
 
-          <div class="c-pill">
-            <span class="c-pill-icon">&#128269;</span>
-            <div class="c-pill-body">
-              <span class="c-pill-num">01</span>
-              <span class="c-pill-label">Evaluación inicial</span>
+      <div class="accordion">
+
+        <div class="ac-item open" onmouseenter="acOpen(0)">
+          <div class="ac-left">
+            <span class="ac-num">01</span>
+            <i class="ti ti-search"></i>
+          </div>
+          <div class="ac-content">
+            <div class="ac-content-inner">
+              <p class="ac-tag">Evaluación Inicial</p>
+              <p class="ac-h">Evaluación inicial</p>
+              <p class="ac-p">El profesional evalúa necesidades y capacidades con criterio clínico, antes de tocar cualquier dispositivo.</p>
             </div>
           </div>
-
-          <div class="c-arrow">&#8250;</div>
-
-          <div class="c-pill active">
-            <span class="c-pill-icon">&#129523;</span>
-            <div class="c-pill-body">
-              <span class="c-pill-num">02</span>
-              <span class="c-pill-label">Validación con dispositivos versátiles y configurables</span>
-            </div>
-          </div>
-
-          <div class="c-arrow">&#8250;</div>
-
-          <div class="c-pill">
-            <span class="c-pill-icon">&#9881;</span>
-            <div class="c-pill-body">
-              <span class="c-pill-num">03</span>
-              <span class="c-pill-label">Entrenamiento y capacitación personalizado</span>
-            </div>
-          </div>
-
-          <div class="c-arrow">&#8250;</div>
-
-          <div class="c-pill">
-            <span class="c-pill-icon">&#10003;</span>
-            <div class="c-pill-body">
-              <span class="c-pill-num">04</span>
-              <span class="c-pill-label">Indicación</span>
-            </div>
-          </div>
-
-          <div class="c-arrow">&#8250;</div>
-
-          <div class="c-pill">
-            <span class="c-pill-icon">&#129309;</span>
-            <div class="c-pill-body">
-              <span class="c-pill-num">05</span>
-              <span class="c-pill-label">Acceso</span>
-            </div>
-          </div>
-
         </div>
+
+        <div class="ac-item" onmouseenter="acOpen(1)">
+          <div class="ac-left">
+            <span class="ac-num">02</span>
+            <i class="ti ti-briefcase"></i>
+          </div>
+          <div class="ac-content">
+            <div class="ac-content-inner">
+              <p class="ac-tag">Prueba de equipamiento</p>
+              <p class="ac-h">Validación con dispositivos configurables</p>
+              <p class="ac-p">La valija EpE permite probar antes de indicar. El dispositivo se adapta al paciente, no el paciente al dispositivo.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ac-item" onmouseenter="acOpen(2)">
+          <div class="ac-left">
+            <span class="ac-num">03</span>
+            <i class="ti ti-school"></i>
+          </div>
+          <div class="ac-content">
+            <div class="ac-content-inner">
+              <p class="ac-tag">Entrenamiento y capacitación</p>
+              <p class="ac-h">Entrenamiento y capacitación</p>
+              <p class="ac-p">Formación práctica con material organizado por dispositivo y objetivo terapéutico. Presencial o virtual.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ac-item" onmouseenter="acOpen(3)">
+          <div class="ac-left">
+            <span class="ac-num">04</span>
+            <i class="ti ti-file-check"></i>
+          </div>
+          <div class="ac-content">
+            <div class="ac-content-inner">
+              <p class="ac-tag">Indicación de dispositivos</p>
+              <p class="ac-h">Indicación</p>
+              <p class="ac-p">Con evidencia real, la indicación es precisa y justificable. Sin sorpresas para el paciente ni la familia.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ac-item" onmouseenter="acOpen(4)">
+          <div class="ac-left">
+            <span class="ac-num">05</span>
+            <i class="ti ti-heart-handshake"></i>
+          </div>
+          <div class="ac-content">
+            <div class="ac-content-inner">
+              <p class="ac-tag">Acceso y autonomía</p>
+              <p class="ac-h">Acceso</p>
+              <p class="ac-p">La persona accede a la tecnología que necesita. El eslabón que cierra el circuito EpE.</p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
-
-
-  <!-- ── STATS ── -->
-  <div class="stats-strip">
-    <div class="stat-item">
-      <span class="stat-n" data-target="20" data-suffix="">0</span>
-      <span class="stat-l">instituciones<br>equipadas en Córdoba</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-n" data-target="8" data-suffix="+">0</span>
-      <span class="stat-l">años construyendo<br>tecnología asistiva</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-n" data-target="2500" data-suffix="M" data-millions="true">0</span>
-      <span class="stat-l">personas necesitan<br>tecnología asistiva hoy</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-n" data-target="100" data-suffix="%">0</span>
-      <span class="stat-l">diseño propio,<br>configurable desde el navegador</span>
-    </div>
-  </div>
 
 
   <!-- ── OPORTUNIDAD ── -->
@@ -1189,6 +1227,27 @@
   </section>
 
 
+  <!-- ── STATS ── -->
+  <div class="stats-strip">
+    <div class="stat-item">
+      <span class="stat-n" data-target="20" data-suffix="">0</span>
+      <span class="stat-l">instituciones<br>equipadas en Córdoba</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n" data-target="8" data-suffix="+">0</span>
+      <span class="stat-l">años construyendo<br>tecnología asistiva</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n" data-target="2500" data-suffix="M" data-millions="true">0</span>
+      <span class="stat-l">personas necesitan<br>tecnología asistiva hoy</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n" data-target="100" data-suffix="%">0</span>
+      <span class="stat-l">diseño propio,<br>configurable desde el navegador</span>
+    </div>
+  </div>
+
+
   <!-- ── CTA FINAL ── -->
   <section class="cta-section" id="contacto">
     <span class="cta-badge">Para instituciones y equipos terapéuticos</span>
@@ -1285,6 +1344,19 @@
 
     counters.forEach(function(el) { observer.observe(el); });
 
+
+    /* ── Acordeón horizontal ── */
+    function acOpen(i) {
+      document.querySelectorAll('.ac-item').forEach(function(el) {
+        el.classList.remove('open');
+      });
+      document.querySelectorAll('.ac-item')[i].classList.add('open');
+    }
+
+    /* Fallback click para touch/mobile */
+    document.querySelectorAll('.ac-item').forEach(function(el, i) {
+      el.addEventListener('click', function() { acOpen(i); });
+    });
 
     /* ── Nav: logos se centran al scrollear ── */
     (function() {
