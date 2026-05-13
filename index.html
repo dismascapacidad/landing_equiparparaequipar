@@ -427,15 +427,21 @@
       transition: flex 550ms cubic-bezier(.4,0,.2,1),
                   background 330ms ease;
       display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      padding: 16px 14px;
-      gap: 12px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 10px;
+      gap: 0;
     }
 
     .ac-item.open {
       flex: 1;
       background: var(--navy);
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px 22px;
+      gap: 18px;
     }
 
     /* columna izquierda fija */
@@ -443,10 +449,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      height: 100%;
+      justify-content: center;
       flex-shrink: 0;
-      width: 24px;
+      gap: 10px;
     }
 
     .ac-num {
@@ -457,15 +462,15 @@
       transition: color 300ms ease;
     }
 
-    .ac-item.open .ac-num { color: var(--teal); }
+    .ac-item.open .ac-num { color: var(--teal); font-size: 28px; }
 
     .ac-left i {
-      font-size: 18px;
+      font-size: 20px;
       color: var(--gray);
       transition: color 300ms ease;
     }
 
-    .ac-item.open .ac-left i { color: rgba(255,255,255,0.4); }
+    .ac-item.open .ac-left i { color: rgba(255,255,255,0.35); }
 
     /* columna derecha: contenido */
     .ac-content {
@@ -475,37 +480,29 @@
       flex: 1;
       min-width: 0;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .ac-item.open .ac-content { opacity: 1; }
 
     /* ac-head y ac-body: estructura interna del contenido */
-    .ac-head { margin-bottom: 6px; }
-    .ac-body { /* sin restricciones en desktop: ac-content ya gestiona visibilidad */ }
-
-    .ac-tag {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--teal-mid);
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      margin-bottom: 8px;
-    }
+    .ac-head { margin-bottom: 8px; }
+    .ac-body { }
 
     .ac-h {
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 600;
       color: #fff;
-      margin-bottom: 10px;
-      line-height: 1.3;
+      margin-bottom: 0;
+      line-height: 1.25;
     }
 
     .ac-p {
-      font-size: 12px;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.65;
-      max-width: 320px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      max-width: 340px;
     }
 
     /* ── STATS STRIP ── */
@@ -964,9 +961,8 @@
       .ac-head {
         display: block;
       }
-      .ac-head .ac-tag { display: none; }   /* la pill la ocultamos en mobile */
       .ac-head .ac-h {
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 600;
         color: var(--navy);
         margin-top: 2px;
@@ -1183,7 +1179,6 @@
           </div>
           <div class="ac-content">
             <div class="ac-head">
-              <p class="ac-tag">Evaluación Inicial</p>
               <p class="ac-h">Evaluación inicial</p>
             </div>
             <div class="ac-body">
@@ -1199,8 +1194,7 @@
           </div>
           <div class="ac-content">
             <div class="ac-head">
-              <p class="ac-tag">Prueba de equipamiento</p>
-              <p class="ac-h">Validación con dispositivos configurables</p>
+              <p class="ac-h">Prueba de equipamiento</p>
             </div>
             <div class="ac-body">
               <p class="ac-p">La valija EpE permite probar antes de indicar. El dispositivo se adapta al paciente, no el paciente al dispositivo.</p>
@@ -1215,7 +1209,6 @@
           </div>
           <div class="ac-content">
             <div class="ac-head">
-              <p class="ac-tag">Entrenamiento y capacitación</p>
               <p class="ac-h">Entrenamiento y capacitación</p>
             </div>
             <div class="ac-body">
@@ -1231,8 +1224,7 @@
           </div>
           <div class="ac-content">
             <div class="ac-head">
-              <p class="ac-tag">Indicación de dispositivos</p>
-              <p class="ac-h">Indicación</p>
+              <p class="ac-h">Indicación de dispositivos</p>
             </div>
             <div class="ac-body">
               <p class="ac-p">Con evidencia real, la indicación es precisa y justificable. Sin sorpresas para el paciente ni la familia.</p>
@@ -1247,8 +1239,7 @@
           </div>
           <div class="ac-content">
             <div class="ac-head">
-              <p class="ac-tag">Acceso y autonomía</p>
-              <p class="ac-h">Acceso</p>
+              <p class="ac-h">Acceso y autonomía</p>
             </div>
             <div class="ac-body">
               <p class="ac-p">La persona accede a la tecnología que necesita. El eslabón que cierra el circuito EpE.</p>
