@@ -908,7 +908,7 @@
       .btn-main,
       .btn-ghost { width: 100%; justify-content: center; }
 
-      /* ── ACORDEÓN MOBILE: colapso vertical con max-height ── */
+      /* ── ACORDEÓN MOBILE ── */
       .accordion-section { padding: 20px 16px 24px; }
 
       .accordion {
@@ -919,57 +919,58 @@
         gap: 6px;
       }
 
-      /* En mobile la transición de flex-width no aplica,
-         cada item ocupa el ancho completo siempre */
+      /* Cada tarjeta ocupa todo el ancho, siempre en fila (num+ícono | contenido) */
       .ac-item {
         flex: none !important;
-        flex-direction: column;
+        flex-direction: row !important;   /* fila siempre: ac-left | ac-content */
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
         width: 100%;
-        align-items: flex-start;
-        padding: 14px 16px;
-        gap: 0;
+        padding: 14px 16px !important;
+        gap: 14px !important;
         overflow: hidden;
         transition: background 330ms ease;
       }
 
-      /* La cabecera (número + ícono) en fila horizontal */
+      /* ac-left: número arriba, ícono abajo, columna estrecha */
       .ac-left {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        height: auto;
-        gap: 10px;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        width: auto !important;
+        gap: 8px !important;
+        padding-top: 2px;
+        flex-shrink: 0;
       }
 
-      /* Ícono siempre visible en mobile como indicador */
-      .ac-left i { display: block !important; color: var(--gray); }
-      .ac-item.open .ac-left i { color: rgba(255,255,255,0.5); }
+      .ac-num { font-size: 20px; }
+      .ac-item.open .ac-num { font-size: 20px; }   /* mismo tamaño en mobile */
 
-      /* ac-content siempre visible en mobile (el colapso es solo en ac-body) */
+      .ac-left i { display: block !important; font-size: 18px; color: var(--gray); }
+      .ac-item.open .ac-left i { color: rgba(255,255,255,0.4); }
+
+      /* ac-content: siempre visible, ocupa el resto del ancho */
       .ac-content {
-        width: 100%;
-        display: block;
-        align-items: unset;
-        opacity: 1;
-        max-height: none;
-        overflow: visible;
-        padding-top: 8px;
+        flex: 1 !important;
+        opacity: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        overflow: visible !important;
+        min-width: 0;
       }
 
-      /* ac-head: número + título siempre visibles */
-      .ac-head {
-        display: block;
-      }
+      /* ac-head: título siempre visible */
+      .ac-head { margin-bottom: 0; }
       .ac-head .ac-h {
         font-size: 15px;
         font-weight: 600;
         color: var(--navy);
-        margin-top: 2px;
+        margin-bottom: 0;
       }
       .ac-item.open .ac-head .ac-h { color: var(--white); }
 
-      /* ac-body: solo la descripción colapsa */
+      /* ac-body: descripción colapsa/expande */
       .ac-body {
         max-height: 0;
         overflow: hidden;
@@ -983,7 +984,7 @@
       .ac-item.open .ac-body {
         max-height: 200px;
         opacity: 1;
-        padding-top: 8px;
+        padding-top: 6px;
       }
 
       /* ── STATS STRIP ── */
