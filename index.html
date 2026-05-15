@@ -508,33 +508,39 @@
     /* ── STATS STRIP ── */
     .stats-strip {
       display: flex;
-      background: var(--navy-dark);
-      border-top: 0.5px solid rgba(255,255,255,0.06);
+      background: var(--navy);
+      border-top: 0.5px solid rgba(255,255,255,0.08);
+      border-bottom: 0.5px solid rgba(255,255,255,0.08);
       padding: 0 var(--sp);
     }
 
     .stat-item {
       flex: 1;
-      padding: 22px 16px;
-      border-right: 0.5px solid rgba(255,255,255,0.07);
+      padding: 24px 16px;
+      border-right: 0.5px solid rgba(255,255,255,0.08);
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
     }
 
     .stat-item:last-child { border-right: none; }
 
     .stat-n {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 800;
-      color: var(--teal);
+      color: rgba(255,255,255,0.9);   /* blanco: igual que oport-num */
       display: block;
       line-height: 1;
     }
 
     .stat-l {
-      font-size: 10px;
-      color: rgba(255,255,255,0.4);
-      margin-top: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--teal-mid);         /* teal: igual que oport-label.w */
       line-height: 1.45;
+      text-align: center;
     }
 
     /* ── SECTION BASE ── */
@@ -570,46 +576,72 @@
     /* ── OPORTUNIDAD ── */
     .oport-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       margin-top: 36px;
     }
 
     .oport-card {
-      background: var(--offwhite);
-      border: 0.5px solid var(--border);
+      background: var(--navy);
+      border: none;
       border-radius: 16px;
-      padding: 28px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 18px;
     }
 
-    .oport-card.dark {
-      background: var(--navy);
-      border-color: var(--navy);
+    /* Columna izquierda: número + unidad */
+    .oport-num-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      min-width: 70px;
+      text-align: center;
     }
 
     .oport-num {
-      font-size: 36px;
+      font-size: 32px;
       font-weight: 800;
-      color: var(--teal);
+      color: rgba(255,255,255,0.9);
       line-height: 1;
-      margin-bottom: 8px;
+    }
+
+    /* Card sin label: número más grande para mantener proporción visual */
+    .oport-num--lg { font-size: 48px; }
+
+    /* Card con poco texto: número intermedio */
+    .oport-num--md { font-size: 40px; }
+
+    .oport-num-unit {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+    }
+
+    /* Columna derecha: texto */
+    .oport-text-col {
+      flex: 1;
+      min-width: 0;
     }
 
     .oport-label {
       font-size: 13px;
-      color: var(--gray);
       line-height: 1.55;
     }
 
-    .oport-label.w { color: rgba(255,255,255,0.55); }
+    .oport-label.w { color: var(--teal-mid); }   /* teal: texto */
 
     .oport-source {
       font-size: 10px;
-      color: var(--teal-mid);
-      margin-top: 8px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 6px;
     }
-
-    .oport-source.d { color: var(--gray); }
 
     /* ── BEFORE / AFTER ── */
     .before-after {
@@ -667,23 +699,25 @@
     .ba-quote {
       grid-column: 1 / -1;
       background: var(--navy);
-      padding: 20px 28px;
+      padding: 28px 48px;
       display: flex;
       align-items: center;
-      gap: 14px;
-    }
-
-    .ba-quote-icon {
-      font-size: 22px;
-      color: var(--teal);
-      flex-shrink: 0;
+      justify-content: center;
     }
 
     .ba-quote p {
-      font-size: 13px;
-      font-style: italic;
-      color: rgba(255,255,255,0.75);
-      line-height: 1.6;
+      font-size: 17px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.65;
+      text-align: center;
+      max-width: 700px;
+    }
+
+    .ba-quote p em {
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 700;
     }
 
     /* ── MISSION BAND ── */
@@ -1008,9 +1042,34 @@
       .sec-h  { max-width: 100%; font-size: clamp(18px, 5vw, 22px); }
       .sec-sub { max-width: 100%; }
 
-      .oport-grid { grid-template-columns: 1fr; }
+      /* Cards en columna, layout interno en fila (num | texto) */
+      .oport-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
 
-      .oport-num { font-size: 28px; }
+      .oport-card {
+        padding: 16px 18px;
+        gap: 14px;
+      }
+
+      .oport-num-col { min-width: 56px; }
+      .oport-num     { font-size: 26px; }
+      .oport-num--md { font-size: 34px; }
+      .oport-num--lg { font-size: 38px; }
+      .oport-label   { font-size: 13px; }
+
+      /* ── STATS STRIP mobile ── */
+      .stats-strip { flex-wrap: wrap; padding: 0 16px; }
+      .stat-item {
+        flex: 0 0 50%;
+        border-right: none;
+        border-bottom: 0.5px solid rgba(255,255,255,0.08);
+        padding: 18px 12px;
+      }
+      .stat-item:nth-child(odd)  { border-right: 0.5px solid rgba(255,255,255,0.08); }
+      .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+      .stat-n { font-size: 26px; }
 
       /* ── BEFORE / AFTER ── */
       .before-after { grid-template-columns: 1fr; }
@@ -1020,7 +1079,12 @@
         border-bottom: 0.5px solid var(--border);
       }
 
-      .ba-quote { grid-column: 1 / -1; flex-direction: column; gap: 8px; }
+      .ba-quote {
+        grid-column: 1 / -1;
+        padding: 20px 24px;
+      }
+
+      .ba-quote p { font-size: 14px; }
 
       /* ── MISSION BAND ── */
       .mission-band { padding: 40px 24px; }
@@ -1256,66 +1320,71 @@
   <!-- ── OPORTUNIDAD ── -->
   <section class="section" id="metodologia">
     <div class="sec-tag">La oportunidad</div>
-    <h2 class="sec-h">La tecnología asistiva ya no es una especialidad de nicho. Es el presente.</h2>
-    <p class="sec-sub">
-      1 de cada 10 argentinos tiene algún tipo de discapacidad. La mayoría no tiene acceso al equipamiento que necesita, en parte porque los profesionales no cuentan con herramientas para evaluarlo. Ese es exactamente el espacio que EpE viene a ocupar.
-    </p>
 
     <div class="oport-grid">
       <div class="oport-card dark">
-        <div class="oport-num" data-target="2500" data-suffix="M" data-millions="true">0</div>
-        <p class="oport-label w">personas necesitan tecnología asistiva en todo el mundo</p>
-        <p class="oport-source">OMS–UNICEF 2022</p>
+        <div class="oport-num-col">
+          <div class="oport-num oport-num--md" data-target="10" data-suffix="%">0</div>
+          <div class="oport-num-unit">De los Argentinos</div>
+        </div>
+        <div class="oport-text-col">
+          <p class="oport-label w">tiene algún tipo de discapacidad y requiere de equipamiento.</p>
+          <p class="oport-source">INDEC 2018</p>
+        </div>
       </div>
       <div class="oport-card dark">
-        <div class="oport-num" data-target="3500" data-suffix="M" data-millions="true">0</div>
-        <p class="oport-label w">personas la necesitarán para 2050. El sector crece y no para.</p>
-        <p class="oport-source">OMS</p>
+        <div class="oport-num-col">
+          <div class="oport-num" data-target="2500" data-suffix="" data-duration="1600">0</div>
+          <div class="oport-num-unit">Millones</div>
+        </div>
+        <div class="oport-text-col">
+          <p class="oport-label w">de personas necesitan tecnología asistiva en todo el mundo hoy.</p>
+          <p class="oport-source">OMS–UNICEF 2022</p>
+        </div>
       </div>
-      <div class="oport-card" style="grid-column: 1 / -1;">
-        <div class="oport-num" style="font-size: 28px; color: var(--navy);">1 de cada 10</div>
-        <p class="oport-label">
-          argentinos tiene algún tipo de discapacidad. La mayoría de los profesionales que trabajan con ellos
-          no cuenta con herramientas de evaluación versátiles para indicar con precisión.
-        </p>
-        <p class="oport-source d">INDEC 2018</p>
+      <div class="oport-card dark">
+        <div class="oport-num-col">
+          <div class="oport-num oport-num--lg" data-target="40" data-suffix="%" data-duration="1600">0</div>
+        </div>
+        <div class="oport-text-col">
+          <p class="oport-label w">de los dispositivos se abandonan cuando la selección no fue centrada en el usuario.</p>
+        </div>
       </div>
     </div>
 
     <div class="before-after">
       <div class="ba-col before">
-        <p class="ba-tag b">Antes</p>
+        <p class="ba-tag b">Ahora</p>
         <div class="ba-item">
           <span class="ba-icon b">&#10007;</span>
-          <p>El paciente se adapta al equipamiento disponible, no al revés.</p>
+          <p>El equipo terapéutico no cuenta con variedad de dispositivos para evaluar, y debe adaptarse también a lo que tenga a disposición.</p>
         </div>
         <div class="ba-item">
           <span class="ba-icon b">&#10007;</span>
-          <p>El profesional evalúa sin herramientas concretas. La indicación depende de lo que hay, no de lo que sirve.</p>
+          <p>El paciente debe adaptarse al dispositivo que consigue en plaza, sin poder validar ni modificar nada.</p>
         </div>
         <div class="ba-item">
           <span class="ba-icon b">&#10007;</span>
-          <p>El dispositivo más caro termina en un cajón.</p>
+          <p>La indicación de equipamiento no es óptima: el equipo se ve limitado en su práctica profesional, y el paciente gasta dinero en productos con altas probabilidades de abandono.</p>
         </div>
       </div>
       <div class="ba-col after">
-        <p class="ba-tag a">Con EpE</p>
+        <p class="ba-tag a">Con la metodología Equipar para Equipar</p>
         <div class="ba-item">
           <span class="ba-icon a">&#10003;</span>
-          <p>La institución prueba, evalúa y confirma antes de indicar.</p>
+          <p>La institución cuenta con dispositivos configurables y variedad de accesorios, y puede evaluar ajustando física y funcionalmente el dispositivo.</p>
         </div>
         <div class="ba-item">
           <span class="ba-icon a">&#10003;</span>
-          <p>El profesional trabaja con dispositivos configurables, adaptados a cada caso.</p>
+          <p>El paciente puede validar usabilidad y funcionalidad, entrenar en el uso, y definir las características del dispositivo ideal para sus posibilidades y gustos.</p>
         </div>
         <div class="ba-item">
           <span class="ba-icon a">&#10003;</span>
-          <p>La indicación es certera. El acceso, real.</p>
+          <p>El servicio brindado por la institución se diferencia, las sesiones se potencian, y el equipamiento indicado reduce la probabilidad de abandono.</p>
         </div>
       </div>
       <div class="ba-quote">
-        <span class="ba-quote-icon">&#8220;</span>
-        <p>Cuando falla un eslabón en el proceso, el dispositivo más caro queda en un cajón.</p>
+        <p>Innovar en el servicio brindado impacta directamente en la <em>calidad de vida</em> de las personas que asisten a la institución y en el <em>desarrollo profesional</em> de su equipo terapéutico.</p>
       </div>
     </div>
   </section>
@@ -1355,7 +1424,7 @@
         <h3 class="eco-h">Plataforma de formación</h3>
         <p class="eco-p">
           Material de capacitación organizado por dispositivo y objetivo terapéutico. Videos tutoriales, presets clínicos y casos reales.
-          Disponible en <strong>equiparparaequipar.com.ar</strong>.
+          Disponible en <a href="https://app.equiparparaequipar.com.ar/" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none;font-weight:600;">app.equiparparaequipar.com.ar</a>.
         </p>
       </div>
       <div class="eco-card" id="comunidad">
@@ -1373,18 +1442,14 @@
   <!-- ── STATS ── -->
   <div class="stats-strip">
     <div class="stat-item">
-      <span class="stat-n" data-target="20" data-suffix="">0</span>
+      <span class="stat-n" data-target="20" data-suffix="+">0</span>
       <span class="stat-l">instituciones<br>equipadas en Córdoba</span>
     </div>
     <div class="stat-item">
       <span class="stat-n" data-target="8" data-suffix="+">0</span>
       <span class="stat-l">años construyendo<br>tecnología asistiva</span>
     </div>
-    <div class="stat-item">
-      <span class="stat-n" data-target="2500" data-suffix="M" data-millions="true">0</span>
-      <span class="stat-l">personas necesitan<br>tecnología asistiva hoy</span>
-    </div>
-    <div class="stat-item">
+<div class="stat-item">
       <span class="stat-n" data-target="100" data-suffix="%">0</span>
       <span class="stat-l">diseño propio,<br>configurable desde el navegador</span>
     </div>
@@ -1417,59 +1482,41 @@
 
 
   <script>
-    /* ── Counting animation ── */
-    function animateCount(el, target, suffix, isMillions, duration) {
-      var start = 0;
+    /* ── Counting animation (todos terminan al mismo tiempo) ── */
+    function runCounters(els) {
+      /* Todos usan el mismo startTime para sincronizarse */
       var startTime = null;
+      var duration  = 1600;
 
-      function step(timestamp) {
-        if (!startTime) startTime = timestamp;
-        var progress = Math.min((timestamp - startTime) / duration, 1);
-        var eased = 1 - Math.pow(1 - progress, 3);
-        var current = Math.round(eased * target);
+      var items = Array.prototype.map.call(els, function(el) {
+        return {
+          el:     el,
+          target: parseInt(el.dataset.target, 10),
+          suffix: el.dataset.suffix || ''
+        };
+      });
 
-        if (isMillions) {
-          el.textContent = (current / 1000).toFixed(1).replace('.', ',') + 'B' + suffix;
-          if (target < 1000) {
-            el.textContent = current + suffix;
-          }
+      function tick(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var eased    = 1 - Math.pow(1 - progress, 3);
+
+        items.forEach(function(item) {
+          var current = Math.round(eased * item.target);
+          item.el.textContent = current + item.suffix;
+        });
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
         } else {
-          el.textContent = current + suffix;
+          /* Valores finales exactos */
+          items.forEach(function(item) {
+            item.el.textContent = item.target + item.suffix;
+          });
         }
-
-        if (progress < 1) requestAnimationFrame(step);
-        else el.textContent = (isMillions && target >= 1000)
-          ? (target / 1000).toFixed(1).replace('.', ',') + 'B' + suffix
-          : target + suffix;
       }
 
-      requestAnimationFrame(step);
-    }
-
-    function runCounters(els) {
-      els.forEach(function(el) {
-        var target   = parseInt(el.dataset.target, 10);
-        var suffix   = el.dataset.suffix || '';
-        var millions = el.dataset.millions === 'true';
-        var duration = 1400;
-
-        if (millions && target >= 1000) {
-          var display = (target / 1000).toFixed(1).replace('.', ',') + 'B' + suffix;
-          var tDisplay = target / 1000;
-          var startTime = null;
-          requestAnimationFrame(function tick(ts) {
-            if (!startTime) startTime = ts;
-            var progress = Math.min((ts - startTime) / duration, 1);
-            var eased = 1 - Math.pow(1 - progress, 3);
-            var current = (eased * tDisplay).toFixed(1).replace('.', ',');
-            el.textContent = current + 'B' + suffix;
-            if (progress < 1) requestAnimationFrame(tick);
-            else el.textContent = display;
-          });
-        } else {
-          animateCount(el, target, suffix, false, duration);
-        }
-      });
+      requestAnimationFrame(tick);
     }
 
     /* Trigger on IntersectionObserver */
