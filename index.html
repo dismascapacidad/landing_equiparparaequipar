@@ -768,7 +768,7 @@
       display: flex;
       gap: 20px;
       white-space: nowrap;
-      animation: ticker-scroll 40s linear infinite;
+      animation: ticker-scroll 22s linear infinite;
     }
 
     .ticker-track span {
@@ -868,8 +868,16 @@
       transform: rotate(180deg);
     }
 
-    /* Panel expandible — fuera del grid, ancho completo de la sección */
+    /* Orden desktop: 3 cards en fila, paneles debajo */
+    #equip-card     { order: 1; }
+    #formacion-card { order: 2; }
+    #comunidad      { order: 3; }
+    #equip-body-panel  { order: 4; }
+    #config-body-panel { order: 5; }
+
+    /* Panel expandible — dentro del grid, siempre ancho completo */
     .config-body {
+      grid-column: 1 / -1;
       max-height: 0;
       overflow: hidden;
       transition: max-height .5s cubic-bezier(.4,0,.2,1),
@@ -1348,6 +1356,12 @@
       /* ── ECOSISTEMA ── */
       .eco-section { padding: 48px 24px; }
       .eco-grid { grid-template-columns: 1fr; }
+      /* En mobile el order se resetea: source order = card→panel→card→panel→card */
+      #equip-card    { order: unset; }
+      #formacion-card{ order: unset; }
+      #comunidad     { order: unset; }
+      #equip-body-panel  { order: unset; }
+      #config-body-panel { order: unset; }
 
       /* Configurador panel: columna única en mobile */
       .config-panel {
@@ -1428,6 +1442,9 @@
 
       /* ── MISSION ── */
       .mission-text { font-size: 15px; }
+
+      /* ── TICKER ── */
+      .ticker-track { animation-duration: 12s; }
 
       /* ── ECO CARDS ── */
       .eco-card { padding: 20px; }
@@ -1675,7 +1692,7 @@
     </p>
 
     <div class="eco-grid">
-      <div class="eco-card eco-card--config" onclick="toggleEquip(this)">
+      <div class="eco-card eco-card--config" id="equip-card" onclick="toggleEquip(this)">
         <div class="eco-icon">&#128295;</div>
         <h3 class="eco-h">Equipamiento versátil</h3>
         <p class="eco-p">Dispositivos de diseño propio configurables desde el navegador: acceso directo e indirecto a TICs, comunicación aumentativa y elementos de posicionamiento. Todo adaptable a cualquier perfil de usuario.</p>
@@ -1683,27 +1700,8 @@
           Ver contenido de la valija <i class="ti ti-chevron-down"></i>
         </div>
       </div>
-      <div class="eco-card eco-card--config" id="formacion-card" onclick="toggleConfig(this)">
-        <div class="eco-icon">&#9881;</div>
-        <div style="flex:1">
-          <h3 class="eco-h">Configurador EpE</h3>
-          <p class="eco-p">Configurá disMouse y disButton desde el navegador sin instalar nada. Creá y guardá perfiles por usuario, usá presets para AsTeRICS Grid y Cboard, compartí configuraciones con colegas y accedé a materiales de formación.</p>
-        </div>
-        <div class="config-toggle-hint">
-          Ver funcionalidades <i class="ti ti-chevron-down"></i>
-        </div>
-      </div>
-      <div class="eco-card" id="comunidad">
-        <div class="eco-icon">&#128101;</div>
-        <h3 class="eco-h">Comunidad de práctica</h3>
-        <p class="eco-p">
-          Un espacio de intercambio entre profesionales e instituciones que trabajan con las mismas herramientas.
-          Porque el conocimiento clínico se construye en red.
-        </p>
-      </div>
-    </div>
 
-    <!-- Panel expandible de Equipamiento (fuera del grid, ancho completo) -->
+      <!-- Panel Equipamiento dentro del grid -->
     <div class="config-body" id="equip-body-panel">
       <div class="config-body-inner">
         <div class="config-tabs">
@@ -1848,8 +1846,19 @@
       </div><!-- /.config-body-inner -->
     </div><!-- /#equip-body-panel -->
 
-    <!-- Panel expandible del Configurador (fuera del grid, ancho completo) -->
-    <div class="config-body" id="config-body-panel">
+      <div class="eco-card eco-card--config" id="formacion-card" onclick="toggleConfig(this)">
+        <div class="eco-icon">&#9881;</div>
+        <div style="flex:1">
+          <h3 class="eco-h">Configurador EpE</h3>
+          <p class="eco-p">Configurá disMouse y disButton desde el navegador sin instalar nada. Creá y guardá perfiles por usuario, usá presets para AsTeRICS Grid y Cboard, compartí configuraciones con colegas y accedé a materiales de formación.</p>
+        </div>
+        <div class="config-toggle-hint">
+          Ver funcionalidades <i class="ti ti-chevron-down"></i>
+        </div>
+      </div>
+
+      <!-- Panel Configurador dentro del grid -->
+      <div class="config-body" id="config-body-panel">
       <div class="config-body-inner">
       <div class="config-tabs">
         <button class="config-tab active" onclick="switchTab(this, 'cfg-dispositivo')">Configuración</button>
@@ -1919,7 +1928,18 @@
         </div>
       </div>
       </div><!-- /.config-body-inner -->
-    </div><!-- /.config-body -->
+      </div><!-- /.config-body -->
+
+      <div class="eco-card" id="comunidad">
+        <div class="eco-icon">&#128101;</div>
+        <h3 class="eco-h">Comunidad de práctica</h3>
+        <p class="eco-p">
+          Un espacio de intercambio entre profesionales e instituciones que trabajan con las mismas herramientas.
+          Porque el conocimiento clínico se construye en red.
+        </p>
+      </div>
+
+    </div><!-- /.eco-grid -->
 
   </section>
 
@@ -2076,8 +2096,26 @@
     counters.forEach(function(el) { observer.observe(el); });
 
 
+    function closeEquip() {
+      var card  = document.getElementById('equip-card');
+      var panel = document.getElementById('equip-body-panel');
+      card.classList.remove('open');
+      panel.classList.remove('open');
+      card.querySelector('.config-toggle-hint').firstChild.textContent = 'Ver contenido de la valija ';
+    }
+
+    function closeConfig() {
+      var card  = document.getElementById('formacion-card');
+      var panel = document.getElementById('config-body-panel');
+      card.classList.remove('open');
+      panel.classList.remove('open');
+      card.querySelector('.config-toggle-hint').firstChild.textContent = 'Ver funcionalidades ';
+    }
+
     /* ── Configurador card ── */
     function toggleConfig(card) {
+      var willOpen = !card.classList.contains('open');
+      if (willOpen) closeEquip();
       var isOpen = card.classList.toggle('open');
       var panel  = document.getElementById('config-body-panel');
       panel.classList.toggle('open', isOpen);
@@ -2096,6 +2134,8 @@
 
     /* ── Equipamiento card ── */
     function toggleEquip(card) {
+      var willOpen = !card.classList.contains('open');
+      if (willOpen) closeConfig();
       var isOpen = card.classList.toggle('open');
       var panel  = document.getElementById('equip-body-panel');
       panel.classList.toggle('open', isOpen);
