@@ -161,101 +161,6 @@
 
     .btn-nav--outline:hover { background: var(--teal-light); opacity: 1; }
 
-    /* ── HAMBURGER (mobile) ── */
-    .nav-hamburger {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-      position: relative;
-      z-index: 1100;  /* por encima del overlay (999) y del drawer */
-    }
-
-    .nav-hamburger span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: var(--navy);
-      margin: 4px 0;
-      border-radius: 2px;
-      transition: transform .3s ease, opacity .3s ease;
-    }
-
-    /* Animación X cuando está abierto */
-    .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-    /* ── MOBILE MENU DRAWER ── */
-    .nav-mobile-menu {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(26, 46, 74, 0.5);
-      backdrop-filter: blur(3px);
-      z-index: 998;  /* debajo de la nav (1000) para que el hamburger quede visible */
-      opacity: 0;
-      transition: opacity .28s ease;
-      pointer-events: none;
-    }
-
-    .nav-mobile-menu.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .nav-mobile-drawer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 78vw;
-      max-width: 300px;
-      background: var(--white);
-      padding: 56px 28px 40px;
-      box-shadow: 6px 0 32px rgba(26,46,74,0.18);
-      transform: translateX(-100%);
-      transition: transform .35s cubic-bezier(.4,0,.2,1);
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      overflow-y: auto;
-    }
-
-    .nav-mobile-menu.open .nav-mobile-drawer {
-      transform: translateX(0);
-    }
-
-    .nav-mobile-link {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--navy);
-      text-decoration: none;
-      padding: 12px 4px;
-      border-bottom: 0.5px solid var(--border);
-      display: block;
-      transition: color .2s;
-    }
-
-    .nav-mobile-link:last-of-type { border-bottom: none; }
-    .nav-mobile-link:hover { color: var(--teal); }
-
-    .nav-mobile-btns {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .nav-mobile-btns .btn-nav {
-      text-align: center;
-      padding: 12px 20px;
-      font-size: 15px;
-    }
 
     /* ── HERO ── */
     .hero {
@@ -1054,6 +959,38 @@
       line-height: 1.55;
     }
 
+    /* ── FAB mobile ── */
+    #fab-cta {
+      display: block;
+      position: fixed;
+      bottom: 20px;
+      right: 16px;
+      background: var(--teal);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 13px 20px;
+      border-radius: 50px;
+      box-shadow: 0 4px 20px rgba(43,181,160,0.45);
+      z-index: 900;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity .28s ease, transform .28s ease;
+    }
+
+    #fab-cta.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    @media (min-width: 769px) {
+      #fab-cta { display: none !important; }
+    }
+
     /* ── CTA FINAL ── */
     .cta-section {
       padding: 80px var(--sp);
@@ -1167,15 +1104,6 @@
       }
       .nav-links { display: none; }
 
-      /* Hamburger a la izquierda, logos centrados */
-      .nav-hamburger { display: block; }
-      .nav-logos {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-
-      .nav-mobile-menu { display: block; }
 
       /* ── HERO ── */
       .hero {
@@ -1458,10 +1386,6 @@
 
   <!-- ── NAV ── -->
   <nav>
-    <button class="nav-hamburger" id="navHamburger" aria-label="Menú" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-
     <div class="nav-logos">
       <div class="nav-brand">
         <img src="assets/img/Logo_EpE.png" class="epe-logo-img" alt="Equipar para Equipar">
@@ -1474,15 +1398,6 @@
       <a href="https://wa.me/5493512926315?text=Hola!%20quisiera%20conocer%20c%C3%B3mo%20formar%20parte%20de%20Equipar%20para%20Equipar" target="_blank" rel="noopener" class="btn-nav">Quiero equiparme →</a>
     </div>
   </nav>
-
-  <!-- ── MOBILE MENU ── -->
-  <div class="nav-mobile-menu" id="navMobileMenu" role="dialog" aria-label="Menú de navegación">
-    <div class="nav-mobile-drawer">
-      <div class="nav-mobile-btns" style="margin-top:0">
-        <a href="https://wa.me/5493512926315?text=Hola!%20quisiera%20conocer%20c%C3%B3mo%20formar%20parte%20de%20Equipar%20para%20Equipar" target="_blank" rel="noopener" class="btn-nav">Quiero equiparme →</a>
-      </div>
-    </div>
-  </div>
 
   <!-- ── HERO ── -->
   <section class="hero">
@@ -1514,7 +1429,7 @@
         </p>
 
         <div class="cta-row anim-4">
-          <a href="https://wa.me/5493512926315?text=Hola!%20quisiera%20conocer%20c%C3%B3mo%20formar%20parte%20de%20Equipar%20para%20Equipar" target="_blank" rel="noopener"><button class="btn-main">Quiero equiparme →</button></a>
+          <a id="hero-cta-btn" href="https://wa.me/5493512926315?text=Hola!%20quisiera%20conocer%20c%C3%B3mo%20formar%20parte%20de%20Equipar%20para%20Equipar" target="_blank" rel="noopener"><button class="btn-main">Quiero equiparme →</button></a>
           <a href="#proceso"><button class="btn-ghost">Conocé la metodología</button></a>
         </div>
       </div>
@@ -2042,6 +1957,11 @@
   </footer>
 
 
+  <!-- ── FAB mobile ── -->
+  <a id="fab-cta" href="https://wa.me/5493512926315?text=Hola!%20quisiera%20conocer%20c%C3%B3mo%20formar%20parte%20de%20Equipar%20para%20Equipar" target="_blank" rel="noopener" aria-label="Quiero equiparme">
+    Quiero equiparme →
+  </a>
+
   <script>
     /* ── Counting animation (todos terminan al mismo tiempo) ── */
     function runCounters(els) {
@@ -2215,44 +2135,21 @@
       }, { passive: true });
     }());
 
-    /* ── Mobile hamburger menu ── */
+
+    /* ── FAB: aparece cuando el botón del hero sale del viewport ── */
     (function() {
-      var hamburger = document.getElementById('navHamburger');
-      var mobileMenu = document.getElementById('navMobileMenu');
+      var heroBtn = document.getElementById('hero-cta-btn');
+      var fab     = document.getElementById('fab-cta');
+      if (!heroBtn || !fab) return;
 
-      function openMenu() {
-        hamburger.classList.add('open');
-        hamburger.setAttribute('aria-expanded', 'true');
-        mobileMenu.classList.add('open');
-        document.body.style.overflow = 'hidden';
+      function update() {
+        var rect = heroBtn.getBoundingClientRect();
+        var outOfView = rect.bottom < 0 || rect.top > window.innerHeight;
+        fab.classList.toggle('visible', outOfView);
       }
 
-      function closeMenu() {
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-        mobileMenu.classList.remove('open');
-        document.body.style.overflow = '';
-      }
-
-      hamburger.addEventListener('click', function() {
-        if (mobileMenu.classList.contains('open')) closeMenu();
-        else openMenu();
-      });
-
-      /* Cerrar al tocar el overlay (fuera del drawer) */
-      mobileMenu.addEventListener('click', function(e) {
-        if (e.target === mobileMenu) closeMenu();
-      });
-
-      /* Cerrar al navegar a un anchor */
-      mobileMenu.querySelectorAll('a[href^="#"]').forEach(function(link) {
-        link.addEventListener('click', closeMenu);
-      });
-
-      /* Cerrar si se pasa a desktop */
-      window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) closeMenu();
-      }, { passive: true });
+      window.addEventListener('scroll', update, { passive: true });
+      update();
     }());
 
     /* ── Smooth scroll for anchor links ── */
@@ -2266,6 +2163,7 @@
       });
     });
   </script>
+
 
 </body>
 </html>
