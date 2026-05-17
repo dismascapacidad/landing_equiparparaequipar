@@ -86,9 +86,23 @@
       will-change: transform;
     }
 
+    .nav-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
     .epe-logo-img {
       height: 32px;
       display: block;
+    }
+
+    .nav-brand-sub {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--gray);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
     }
 
     .nav-divider {
@@ -387,6 +401,7 @@
 
     /* ── ACORDEÓN HORIZONTAL ── */
     .accordion-section {
+      scroll-margin-top: 80px;
       position: relative;
       z-index: 2;
       background: rgba(10, 20, 40, 0.92);
@@ -740,6 +755,39 @@
       font-style: normal;
     }
 
+    /* ── INSTITUTIONS TICKER ── */
+    .institutions-ticker {
+      background: var(--navy);
+      border-top: 0.5px solid rgba(255,255,255,0.08);
+      padding: 14px 0;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 20px;
+      white-space: nowrap;
+      animation: ticker-scroll 40s linear infinite;
+    }
+
+    .ticker-track span {
+      font-size: clamp(13px, 1.8vw, 17px);
+      font-weight: 400;
+      color: rgba(255,255,255,0.45);
+      flex-shrink: 0;
+    }
+
+    .ticker-track span:nth-child(even) {
+      color: var(--teal-mid);
+      opacity: 0.6;
+    }
+
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
     /* ── ECOSYSTEM ── */
     .eco-section {
       background: var(--offwhite);
@@ -788,6 +836,214 @@
       font-size: 13px;
       color: var(--gray);
       line-height: 1.65;
+    }
+
+    /* ── CONFIGURADOR CARD ── */
+
+    /* La card se ve igual que las demás, solo agrega cursor y el hint */
+    .eco-card--config {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    .eco-card--config:hover { border-color: var(--teal-mid); }
+
+    .config-toggle-hint {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--teal);
+      margin-top: 14px;
+    }
+
+    .config-toggle-hint i {
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+    }
+
+    .eco-card--config.open .config-toggle-hint i {
+      transform: rotate(180deg);
+    }
+
+    /* Panel expandible — fuera del grid, ancho completo de la sección */
+    .config-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .5s cubic-bezier(.4,0,.2,1),
+                  margin-top .35s ease;
+      margin-top: 0;
+    }
+
+    .config-body.open {
+      max-height: 600px;
+      margin-top: 16px;
+    }
+
+    .config-body-inner {
+      background: var(--white);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .config-tabs {
+      display: flex;
+      border-bottom: 0.5px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .config-tabs::-webkit-scrollbar { display: none; }
+
+    .config-tab {
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color .2s, border-color .2s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: var(--font);
+    }
+
+    .config-tab:hover { color: var(--navy); }
+    .config-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+    .config-panel {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      padding: 24px 28px;
+      align-items: center;
+    }
+
+    .config-panel.active { display: grid; }
+
+    .config-panel-text h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .config-panel-text p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .config-panel-img {
+      background: var(--offwhite);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .config-panel-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .img-placeholder {
+      font-size: 12px;
+      color: var(--gray);
+      text-align: center;
+      padding: 16px;
+      display: none;
+    }
+
+    .config-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--teal);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .config-cta:hover { opacity: .88; }
+
+    /* ── VALIJA DEVICE GRID (dentro del panel de equipamiento) ── */
+    .valija-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+      padding: 24px 28px;
+    }
+
+    .valija-item {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .valija-img {
+      background: var(--offwhite);
+      border: 0.5px solid var(--border);
+      border-radius: 10px;
+      aspect-ratio: 4 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .valija-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .valija-img .img-placeholder {
+      font-size: 11px;
+      color: var(--gray);
+      text-align: center;
+      padding: 12px;
+      display: flex;
+    }
+
+    .valija-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+
+    .valija-qty {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--teal);
+      background: var(--teal-light);
+      padding: 2px 8px;
+      border-radius: 99px;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    .valija-desc {
+      font-size: 12px;
+      color: var(--gray);
+      line-height: 1.55;
     }
 
     /* ── CTA FINAL ── */
@@ -1093,6 +1349,29 @@
       .eco-section { padding: 48px 24px; }
       .eco-grid { grid-template-columns: 1fr; }
 
+      /* Configurador panel: columna única en mobile */
+      .config-panel {
+        grid-template-columns: 1fr;
+      }
+      .config-panel-img {
+        aspect-ratio: 16 / 9;
+      }
+      .config-tab {
+        padding: 10px 14px;
+        font-size: 12px;
+      }
+      .config-body.open {
+        max-height: 1200px;
+      }
+
+      /* Grilla de dispositivos en mobile: 2 columnas */
+      .valija-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 16px;
+      }
+      .valija-desc { display: none; }   /* ocultar descripción en mobile para no saturar */
+
       /* ── CTA FINAL ── */
       .cta-section { padding: 56px 24px; }
 
@@ -1167,29 +1446,23 @@
     </button>
 
     <div class="nav-logos">
-      <img src="assets/img/Logo_EpE.png" class="epe-logo-img" alt="Equipar para Equipar">
+      <div class="nav-brand">
+        <img src="assets/img/Logo_EpE.png" class="epe-logo-img" alt="Equipar para Equipar">
+      </div>
       <div class="nav-divider"></div>
       <img src="assets/img/logo_dis.png" class="dis-logo" alt="dis+capacidad">
     </div>
 
     <div class="nav-links">
-      <a href="#metodologia" class="nav-link">Metodología</a>
-      <a href="#formacion" class="nav-link">Formación</a>
-      <a href="#comunidad" class="nav-link">Comunidad</a>
-      <a href="https://app.equiparparaequipar.com.ar/" target="_blank" rel="noopener" class="btn-nav btn-nav--outline">Configurador</a>
-      <a href="#contacto" class="btn-nav">Quiero una valija →</a>
+      <a href="https://wa.me/5493512926315?text=Hola!%20quisiera%20conocer%20c%C3%B3mo%20formar%20parte%20de%20Equipar%20para%20Equipar" target="_blank" rel="noopener" class="btn-nav">Quiero equiparme →</a>
     </div>
   </nav>
 
   <!-- ── MOBILE MENU ── -->
   <div class="nav-mobile-menu" id="navMobileMenu" role="dialog" aria-label="Menú de navegación">
     <div class="nav-mobile-drawer">
-      <a href="#metodologia" class="nav-mobile-link">Metodología</a>
-      <a href="#formacion"   class="nav-mobile-link">Formación</a>
-      <a href="#comunidad"   class="nav-mobile-link">Comunidad</a>
-      <div class="nav-mobile-btns">
-        <a href="https://app.equiparparaequipar.com.ar/" target="_blank" rel="noopener" class="btn-nav btn-nav--outline">Configurador</a>
-        <a href="#contacto" class="btn-nav">Quiero una valija →</a>
+      <div class="nav-mobile-btns" style="margin-top:0">
+        <a href="https://wa.me/5493512926315?text=Hola!%20quisiera%20conocer%20c%C3%B3mo%20formar%20parte%20de%20Equipar%20para%20Equipar" target="_blank" rel="noopener" class="btn-nav">Quiero equiparme →</a>
       </div>
     </div>
   </div>
@@ -1224,8 +1497,8 @@
         </p>
 
         <div class="cta-row anim-4">
-          <a href="#contacto"><button class="btn-main">Quiero una valija →</button></a>
-          <a href="#metodologia"><button class="btn-ghost">Conocé la metodología</button></a>
+          <a href="https://wa.me/5493512926315?text=Hola!%20quisiera%20conocer%20c%C3%B3mo%20formar%20parte%20de%20Equipar%20para%20Equipar" target="_blank" rel="noopener"><button class="btn-main">Quiero equiparme →</button></a>
+          <a href="#proceso"><button class="btn-ghost">Conocé la metodología</button></a>
         </div>
       </div>
 
@@ -1234,7 +1507,7 @@
   </section>
 
   <!-- ── ACORDEÓN ── -->
-  <div class="accordion-section anim-5">
+  <div class="accordion-section anim-5" id="proceso">
       <p class="accordion-title">El proceso de Tecnología Asistiva, <span class="ac-highlight">simple.</span></p>
 
       <div class="accordion">
@@ -1349,6 +1622,7 @@
         </div>
         <div class="oport-text-col">
           <p class="oport-label w">de los dispositivos se abandonan cuando la selección no fue centrada en el usuario.</p>
+          <p class="oport-source">RESNA</p>
         </div>
       </div>
     </div>
@@ -1391,17 +1665,6 @@
   </section>
 
 
-  <!-- ── MISSION BAND ── -->
-  <div class="mission-band">
-    <p class="mission-text">
-      Dismascapacidad existe para
-      <em>naturalizar el uso de tecnología asistiva</em>
-      en cada institución, cada consultorio y cada hogar.
-      La valija EpE es la herramienta que lo hace posible.
-    </p>
-  </div>
-
-
   <!-- ── ECOSYSTEM ── -->
   <section class="eco-section" id="formacion">
     <div class="sec-tag">El ecosistema EpE</div>
@@ -1412,21 +1675,23 @@
     </p>
 
     <div class="eco-grid">
-      <div class="eco-card">
+      <div class="eco-card eco-card--config" onclick="toggleEquip(this)">
         <div class="eco-icon">&#128295;</div>
         <h3 class="eco-h">Equipamiento versátil</h3>
-        <p class="eco-p">
-          Dispositivos de diseño propio, configurables desde el navegador, adaptados a cualquier perfil de usuario.
-          El equipamiento se adapta al paciente, no al revés.
-        </p>
+        <p class="eco-p">Dispositivos de diseño propio configurables desde el navegador: acceso directo e indirecto a TICs, comunicación aumentativa y elementos de posicionamiento. Todo adaptable a cualquier perfil de usuario.</p>
+        <div class="config-toggle-hint">
+          Ver contenido de la valija <i class="ti ti-chevron-down"></i>
+        </div>
       </div>
-      <div class="eco-card" id="formacion-card">
-        <div class="eco-icon">&#127979;</div>
-        <h3 class="eco-h">Plataforma de formación</h3>
-        <p class="eco-p">
-          Material de capacitación organizado por dispositivo y objetivo terapéutico. Videos tutoriales, presets clínicos y casos reales.
-          Disponible en <a href="https://app.equiparparaequipar.com.ar/" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none;font-weight:600;">app.equiparparaequipar.com.ar</a>.
-        </p>
+      <div class="eco-card eco-card--config" id="formacion-card" onclick="toggleConfig(this)">
+        <div class="eco-icon">&#9881;</div>
+        <div style="flex:1">
+          <h3 class="eco-h">Configurador EpE</h3>
+          <p class="eco-p">Configurá disMouse y disButton desde el navegador sin instalar nada. Creá y guardá perfiles por usuario, usá presets para AsTeRICS Grid y Cboard, compartí configuraciones con colegas y accedé a materiales de formación.</p>
+        </div>
+        <div class="config-toggle-hint">
+          Ver funcionalidades <i class="ti ti-chevron-down"></i>
+        </div>
       </div>
       <div class="eco-card" id="comunidad">
         <div class="eco-icon">&#128101;</div>
@@ -1437,11 +1702,241 @@
         </p>
       </div>
     </div>
+
+    <!-- Panel expandible de Equipamiento (fuera del grid, ancho completo) -->
+    <div class="config-body" id="equip-body-panel">
+      <div class="config-body-inner">
+        <div class="config-tabs">
+          <button class="config-tab active" onclick="switchEquipTab(this, 'eq-directo')">Acceso directo</button>
+          <button class="config-tab" onclick="switchEquipTab(this, 'eq-indirecto')">Acceso indirecto</button>
+          <button class="config-tab" onclick="switchEquipTab(this, 'eq-posicionamiento')">Posicionamiento</button>
+          <button class="config-tab" onclick="switchEquipTab(this, 'eq-caa')">Comunicación aumentativa</button>
+        </div>
+
+        <!-- Acceso directo -->
+        <div id="eq-directo" class="config-panel active" style="display:block; padding:0;">
+          <div class="valija-grid">
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-dismouse.jpg" alt="disMouse 2.3 botones" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 disMouse 2.3 botones</p>
+              </div>
+              <span class="valija-qty">× 1</span>
+              <p class="valija-name">disMouse 2.3 botones</p>
+              <p class="valija-desc">Mouse adaptado configurable: emula todas las acciones de mouse y teclado, feedback multisensorial, 3 modos de barrido, entradas para pulsadores externos.</p>
+            </div>
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-djoy.jpg" alt="Accesorio dJoy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 Accesorio dJoy</p>
+              </div>
+              <span class="valija-qty">× 1</span>
+              <p class="valija-name">Accesorio dJoy</p>
+              <p class="valija-desc">Módulo joystick con empuñaduras intercambiables, compatible con disMouse y disHub. Conexión USB o Bluetooth BLE.</p>
+            </div>
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-teclado.jpg" alt="Teclado con caracteres ampliados" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 Teclado con caracteres ampliados</p>
+              </div>
+              <span class="valija-qty">× 1</span>
+              <p class="valija-name">Teclado con caracteres ampliados</p>
+              <p class="valija-desc">Teclado USB de alto contraste con sobreteclado acrílico desmontable para usuarios con dificultades en el movimiento selectivo o temblores.</p>
+            </div>
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-otg.jpg" alt="Adaptadores USB OTG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 Adaptadores USB OTG</p>
+              </div>
+              <span class="valija-qty">× 3</span>
+              <p class="valija-name">Adaptadores USB OTG</p>
+              <p class="valija-desc">Permiten conectar todos los dispositivos del kit a tablets y celulares.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acceso indirecto -->
+        <div id="eq-indirecto" class="config-panel" style="display:none; padding:0;">
+          <div class="valija-grid">
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-pulsador-usb-cable.jpg" alt="Pulsador USB con cable" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 Pulsador USB con cable</p>
+              </div>
+              <span class="valija-qty">× 1</span>
+              <p class="valija-name">Pulsador USB con cable</p>
+              <p class="valija-desc">Emula clic izquierdo del mouse. Con entrada jack 3.5 mm para función secundaria mediante pulsador PLUG.</p>
+            </div>
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-pulsador-usb-inalambrico.jpg" alt="Pulsador USB inalámbrico" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 Pulsador USB inalámbrico</p>
+              </div>
+              <span class="valija-qty">× 1</span>
+              <p class="valija-name">Pulsador USB inalámbrico</p>
+              <p class="valija-desc">Pulsador con conexión inalámbrica para acceso remoto a dispositivos. Ideal para usuarios con movilidad reducida.</p>
+            </div>
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-pulsadores-plug.jpg" alt="Pulsadores PLUG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 Pulsadores PLUG</p>
+              </div>
+              <span class="valija-qty">× 4</span>
+              <p class="valija-name">Pulsadores PLUG</p>
+              <p class="valija-desc">Pulsadores con salida jack 3.5 mm compatibles con disMouse, disHub, juguetes adaptados y periféricos de PC.</p>
+            </div>
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-dishub.jpg" alt="Interfaz disHub BLE" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 Interfaz disHub BLE</p>
+              </div>
+              <span class="valija-qty">× 1</span>
+              <p class="valija-name">Interfaz disHub BLE</p>
+              <p class="valija-desc">2 botones integrados y entradas para 8 sensores externos. Bluetooth BLE, configurable desde el navegador. Compatible con dJoy y pulsadores PLUG.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Posicionamiento -->
+        <div id="eq-posicionamiento" class="config-panel" style="display:none; padding:0;">
+          <div class="valija-grid">
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-brazo-articulado.jpg" alt="Brazo articulado" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 Brazo articulado</p>
+              </div>
+              <span class="valija-qty">× 1</span>
+              <p class="valija-name">Brazo articulado</p>
+              <p class="valija-desc">Extensión de 30 cm con articulaciones esféricas en ambos extremos, rosca 1/4" y prensa para superficies planas o tubos (apertura máx. 30 mm).</p>
+            </div>
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-atril-tablet.jpg" alt="Atril regulable para tablet" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 Atril regulable para tablet</p>
+              </div>
+              <span class="valija-qty">× 1</span>
+              <p class="valija-name">Atril regulable para tablet</p>
+              <p class="valija-desc">Soporte ajustable que contempla postura, visibilidad funcional y conexión segura de dispositivos de acceso.</p>
+            </div>
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-soporte-celular.jpg" alt="Soporte para celular" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 Soporte para celular</p>
+              </div>
+              <span class="valija-qty">× 1</span>
+              <p class="valija-name">Soporte para celular</p>
+              <p class="valija-desc">Soporte fijo para posicionamiento seguro y accesible de dispositivos móviles durante la intervención.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comunicación aumentativa -->
+        <div id="eq-caa" class="config-panel" style="display:none; padding:0;">
+          <div class="valija-grid">
+            <div class="valija-item">
+              <div class="valija-img">
+                <img src="assets/img/valija-discom.jpg" alt="disCom lvls+" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <p class="img-placeholder">📷 disCom lvls+</p>
+              </div>
+              <span class="valija-qty">× 1</span>
+              <p class="valija-name">disCom lvls+</p>
+              <p class="valija-desc">Grabador/reproductor de mensajes con voz. Modo por niveles (9 mensajes en 3 niveles) y modo secuencial (hasta 90 segundos). Ideal para comunicación funcional y causa-efecto.</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.config-body-inner -->
+    </div><!-- /#equip-body-panel -->
+
+    <!-- Panel expandible del Configurador (fuera del grid, ancho completo) -->
+    <div class="config-body" id="config-body-panel">
+      <div class="config-body-inner">
+      <div class="config-tabs">
+        <button class="config-tab active" onclick="switchTab(this, 'cfg-dispositivo')">Configuración</button>
+        <button class="config-tab" onclick="switchTab(this, 'cfg-presets')">Presets rápidos</button>
+        <button class="config-tab" onclick="switchTab(this, 'cfg-perfiles')">Perfiles</button>
+        <button class="config-tab" onclick="switchTab(this, 'cfg-comunidad')">Comunidad</button>
+        <button class="config-tab" onclick="switchTab(this, 'cfg-formacion')">Formación</button>
+      </div>
+
+      <div id="cfg-dispositivo" class="config-panel active">
+        <div class="config-panel-text">
+          <h4>Configuración del dispositivo</h4>
+          <p>Ajustá cada botón (teclado, mouse, scroll, combinaciones con modificadores), modo de flechas, velocidad, aceleración y orientación. Los cambios se aplican en tiempo real y se graban en el hardware.</p>
+          <a href="https://app.equiparparaequipar.com.ar/" target="_blank" rel="noopener" class="config-cta">Abrir Configurador <i class="ti ti-arrow-right"></i></a>
+        </div>
+        <div class="config-panel-img">
+          <img src="assets/img/config-dispositivo.png" alt="Panel de configuración del dispositivo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <p class="img-placeholder">📷 Panel principal con botón seleccionado y opciones de asignación</p>
+        </div>
+      </div>
+
+      <div id="cfg-presets" class="config-panel">
+        <div class="config-panel-text">
+          <h4>Configuraciones rápidas</h4>
+          <p>Biblioteca de presets prediseñados para AsTeRICS Grid, Cboard y configuraciones para juegos. Explorables sin necesidad de tener un dispositivo conectado.</p>
+          <a href="https://app.equiparparaequipar.com.ar/" target="_blank" rel="noopener" class="config-cta">Explorar presets <i class="ti ti-arrow-right"></i></a>
+        </div>
+        <div class="config-panel-img">
+          <img src="assets/img/config-presets.png" alt="Biblioteca de presets" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <p class="img-placeholder">📷 Biblioteca de presets con categorías AsTeRICS Grid, Cboard y juegos</p>
+        </div>
+      </div>
+
+      <div id="cfg-perfiles" class="config-panel">
+        <div class="config-panel-text">
+          <h4>Gestión de perfiles</h4>
+          <p>Guardá configuraciones personalizadas con nombre, fecha y nota descriptiva. Se sincronizan automáticamente en la nube al iniciar sesión con cuenta Google.</p>
+          <a href="https://app.equiparparaequipar.com.ar/" target="_blank" rel="noopener" class="config-cta">Gestionar perfiles <i class="ti ti-arrow-right"></i></a>
+        </div>
+        <div class="config-panel-img">
+          <img src="assets/img/config-perfiles.png" alt="Lista de perfiles guardados" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <p class="img-placeholder">📷 Lista de perfiles con nombre, fecha y nota descriptiva</p>
+        </div>
+      </div>
+
+      <div id="cfg-comunidad" class="config-panel">
+        <div class="config-panel-text">
+          <h4>Comunidad</h4>
+          <p>Compartí configuraciones con colegas por email, publicalas para toda la comunidad EpE o exportalas en CSV. Los presets de la comunidad son visibles y aplicables por cualquier usuario registrado.</p>
+          <a href="https://app.equiparparaequipar.com.ar/" target="_blank" rel="noopener" class="config-cta">Ver comunidad <i class="ti ti-arrow-right"></i></a>
+        </div>
+        <div class="config-panel-img">
+          <img src="assets/img/config-comunidad.png" alt="Presets de la comunidad" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <p class="img-placeholder">📷 Vista de presets compartidos por la comunidad</p>
+        </div>
+      </div>
+
+      <div id="cfg-formacion" class="config-panel">
+        <div class="config-panel-text">
+          <h4>Formación</h4>
+          <p>Accedé a los materiales del curso Tecnología Asistiva + Equipar para Equipar directamente desde la herramienta, organizados por dispositivo y objetivo terapéutico.</p>
+          <a href="https://app.equiparparaequipar.com.ar/" target="_blank" rel="noopener" class="config-cta">Acceder a formación <i class="ti ti-arrow-right"></i></a>
+        </div>
+        <div class="config-panel-img">
+          <img src="assets/img/config-formacion.png" alt="Materiales de formación" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <p class="img-placeholder">📷 Pantalla de acceso a materiales del curso</p>
+        </div>
+      </div>
+      </div><!-- /.config-body-inner -->
+    </div><!-- /.config-body -->
+
   </section>
 
 
+  <!-- ── MISSION BAND ── -->
+  <div class="mission-band">
+    <p class="mission-text" style="font-weight:400; max-width:none;">
+      Existimos para <em>naturalizar el uso de tecnología asistiva</em> en cada institución, cada consultorio y cada hogar.
+    </p>
+    <p class="mission-text" style="margin-top:.9em;">
+      La valija EpE es la herramienta que lo hace posible.
+    </p>
+  </div>
+
   <!-- ── STATS ── -->
   <div class="stats-strip">
+
     <div class="stat-item">
       <span class="stat-n" data-target="20" data-suffix="+">0</span>
       <span class="stat-l">instituciones<br>equipadas en Córdoba</span>
@@ -1456,6 +1951,52 @@
     </div>
   </div>
 
+  <!-- ── INSTITUTIONS TICKER ── -->
+  <div class="institutions-ticker" aria-label="Instituciones equipadas">
+    <div class="ticker-track">
+      <span>ALPI</span><span>·</span>
+      <span>Centro de Rehabilitación Despertar</span><span>·</span>
+      <span>ALPI San Francisco</span><span>·</span>
+      <span>ALPI Dean Funes</span><span>·</span>
+      <span>Centro de Estimulación Renacer</span><span>·</span>
+      <span>Centro Privado de Rehab. Dra. Raquel Heredia</span><span>·</span>
+      <span>Centro Privado de Rehabilitación Integral San Benito</span><span>·</span>
+      <span>Neuroability</span><span>·</span>
+      <span>INSERIR</span><span>·</span>
+      <span>Centro de Rehabilitación Rehabilitando</span><span>·</span>
+      <span>Centro Médico AIRE Jesús María</span><span>·</span>
+      <span>Centro Privado de Rehab. e Integración Escolar Wernicke</span><span>·</span>
+      <span>CE.IN</span><span>·</span>
+      <span>Instituto de Rehabilitación del Lisiado Córdoba</span><span>·</span>
+      <span>RAÍCES Centro Interdisciplinario de Rehabilitación</span><span>·</span>
+      <span>Elphis Centro de Rehabilitación Integral</span><span>·</span>
+      <span>San Camilo de Lellis</span><span>·</span>
+      <span>Centro de Rehabilitación Neurológica Logros</span><span>·</span>
+      <span>Fundación ILIKA</span><span>·</span>
+      <span>Centro de Rehabilitación Fundación Kamay</span><span>·</span>
+      <!-- Duplicado para loop continuo -->
+      <span>ALPI</span><span>·</span>
+      <span>Centro de Rehabilitación Despertar</span><span>·</span>
+      <span>ALPI San Francisco</span><span>·</span>
+      <span>ALPI Dean Funes</span><span>·</span>
+      <span>Centro de Estimulación Renacer</span><span>·</span>
+      <span>Centro Privado de Rehab. Dra. Raquel Heredia</span><span>·</span>
+      <span>Centro Privado de Rehabilitación Integral San Benito</span><span>·</span>
+      <span>Neuroability</span><span>·</span>
+      <span>INSERIR</span><span>·</span>
+      <span>Centro de Rehabilitación Rehabilitando</span><span>·</span>
+      <span>Centro Médico AIRE Jesús María</span><span>·</span>
+      <span>Centro Privado de Rehab. e Integración Escolar Wernicke</span><span>·</span>
+      <span>CE.IN</span><span>·</span>
+      <span>Instituto de Rehabilitación del Lisiado Córdoba</span><span>·</span>
+      <span>RAÍCES Centro Interdisciplinario de Rehabilitación</span><span>·</span>
+      <span>Elphis Centro de Rehabilitación Integral</span><span>·</span>
+      <span>San Camilo de Lellis</span><span>·</span>
+      <span>Centro de Rehabilitación Neurológica Logros</span><span>·</span>
+      <span>Fundación ILIKA</span><span>·</span>
+      <span>Centro de Rehabilitación Fundación Kamay</span><span>·</span>
+    </div>
+  </div>
 
   <!-- ── CTA FINAL ── -->
   <section class="cta-section" id="contacto">
@@ -1466,8 +2007,7 @@
       quiénes van a poder ofrecer más y mejores prestaciones mañana.
     </p>
     <div class="cta-btns">
-      <button class="btn-dark">Quiero una valija →</button>
-      <button class="btn-outline">Hablá con el equipo</button>
+      <a href="https://wa.me/5493512926315?text=Hola!%20quisiera%20conocer%20c%C3%B3mo%20formar%20parte%20de%20Equipar%20para%20Equipar" target="_blank" rel="noopener"><button class="btn-dark">Quiero equiparme →</button></a>
     </div>
   </section>
 
@@ -1478,7 +2018,7 @@
       <img src="assets/img/logo_dis.png" class="ft-logo" alt="dis+capacidad">
       <span class="ft-text">Equipar para Equipar · Córdoba, Argentina</span>
     </div>
-    <span class="ft-text">dismascapacidad.com.ar</span>
+    <a href="https://dismascapacidad.com.ar" target="_blank" rel="noopener" class="ft-text" style="text-decoration:none; color:inherit;">dismascapacidad.com.ar</a>
   </footer>
 
 
@@ -1535,6 +2075,42 @@
 
     counters.forEach(function(el) { observer.observe(el); });
 
+
+    /* ── Configurador card ── */
+    function toggleConfig(card) {
+      var isOpen = card.classList.toggle('open');
+      var panel  = document.getElementById('config-body-panel');
+      panel.classList.toggle('open', isOpen);
+      var hint = card.querySelector('.config-toggle-hint');
+      hint.firstChild.textContent = isOpen ? 'Cerrar ' : 'Ver funcionalidades ';
+      if (isOpen) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function switchTab(btn, panelId) {
+      var bodyPanel = document.getElementById('config-body-panel');
+      bodyPanel.querySelectorAll('.config-tab').forEach(function(t) { t.classList.remove('active'); });
+      bodyPanel.querySelectorAll('.config-panel').forEach(function(p) { p.style.display = 'none'; });
+      btn.classList.add('active');
+      document.getElementById(panelId).style.display = 'block';
+    }
+
+    /* ── Equipamiento card ── */
+    function toggleEquip(card) {
+      var isOpen = card.classList.toggle('open');
+      var panel  = document.getElementById('equip-body-panel');
+      panel.classList.toggle('open', isOpen);
+      var hint = card.querySelector('.config-toggle-hint');
+      hint.firstChild.textContent = isOpen ? 'Cerrar ' : 'Ver contenido de la valija ';
+      if (isOpen) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function switchEquipTab(btn, panelId) {
+      var bodyPanel = document.getElementById('equip-body-panel');
+      bodyPanel.querySelectorAll('.config-tab').forEach(function(t) { t.classList.remove('active'); });
+      bodyPanel.querySelectorAll('.config-panel').forEach(function(p) { p.style.display = 'none'; });
+      btn.classList.add('active');
+      document.getElementById(panelId).style.display = 'block';
+    }
 
     /* ── Acordeón horizontal ── */
     function acOpen(i) {
